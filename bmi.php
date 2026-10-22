@@ -1,17 +1,16 @@
 <?php
-// Inizializziamo le variabili per evitare avvisi (warning)
+// Inizializziamo le variabili per evitare warning
 $nome = "";
 $peso = "";
 $altezza_cm = "";
 $bmi_formatted = "";
 $categoria = "";
 $errore = "";
-$calcolato = false;
 
-// Controlliamo se la pagina è stata richiamata tramite metodo POST
+// Verifichiamo il metodo della richiesta tramite $_SERVER o $GLOBALS
 if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    // Recuperiamo i dati da $_POST o da $GLOBALS['_POST']
+
+    // Recupero dati con isset
     if (isset($_POST['nome'])) {
         $nome = htmlspecialchars($_POST['nome']);
     }
@@ -24,7 +23,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
         $altezza_cm = $_POST['altezza'];
     }
 
-    // Controlliamo che i campi non siano vuoti e che peso e altezza siano numeri
+    // Controllo con is_numeric
     if (!empty($nome) && is_numeric($peso) && is_numeric($altezza_cm) && $altezza_cm > 0) {
         
         // Conversione altezza da cm a metri
@@ -44,8 +43,6 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $categoria = "Obesità";
         }
-
-        $calcolato = true;
     } else {
         $errore = "Dati inseriti non validi.";
     }
@@ -56,7 +53,8 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcolatore BMI</title>
+    <title><?php echo (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") ? "Risultato BMI" : "Calcolatore BMI"; ?></title>
+    
     <style>
         * {
             box-sizing: border-box;
@@ -129,6 +127,7 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 4px;
         }
 
+        /* Distanza specifica di 24px tra l'ultimo campo (altezza) e il pulsante */
         .form-group:last-of-type {
             margin-bottom: 24px;
         }
@@ -154,14 +153,20 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <main class="main-container">
-        
-        <?php if ($calcolato): ?>
-            <!-- SE IL CALCOLO É STATO EFFETTUATO MOSTRA I RISULTATI -->
+
+        <?php if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST"): ?>
+            
+            <!-- PAGINA DEI RISULTATI (bmi.php) -->
             <h1>Risultato BMI</h1>
+            
             <div class="card">
-                <p style="margin-bottom: 12px;">Ciao <strong><?php echo $nome; ?></strong>,</p>
-                <p style="margin-bottom: 12px;">Il tuo BMI è: <strong><?php echo $bmi_formatted; ?></strong></p>
-                <p style="margin-bottom: 24px;">Categoria: <strong><?php echo $categoria; ?></strong></p>
+                <?php if (!empty($errore)): ?>
+                    <p class="error-message"><?php echo $errore; ?></p>
+                <?php else: ?>
+                    <p style="margin-bottom: 12px;">Ciao <strong><?php echo $nome; ?></strong>,</p>
+                    <p style="margin-bottom: 12px;">Il tuo BMI è: <strong><?php echo $bmi_formatted; ?></strong></p>
+                    <p style="margin-bottom: 24px;">Categoria: <strong><?php echo $categoria; ?></strong></p>
+                <?php endif; ?>
 
                 <a href="<?php echo $_SERVER['PHP_SELF']; ?>" style="text-decoration: none;">
                     <button type="button" class="btn-submit">Torna indietro</button>
@@ -169,32 +174,34 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
         <?php else: ?>
-            <!-- ALTRIMENTI MOSTRA IL FORM -->
-            <h1>Calcolatore BMI</h1>
-            <div class="card">
-                <?php if (!empty($errore)): ?>
-                    <p class="error-message" style="margin-bottom: 16px;"><?php echo $errore; ?></p>
-                <?php endif; ?>
 
-                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+            <!-- PAGINA DEL FORM (form.html) -->
+            <h1>Calcolatore BMI</h1>
+            
+            <div class="card">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" id="bmiForm">
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" value="<?php echo $nome; ?>" required>
+                        <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" required>
+                        <span class="error-message" id="error-nome"></span>
                     </div>
 
                     <div class="form-group">
                         <label for="peso">Peso (kg)</label>
-                        <input type="number" id="peso" name="peso" step="0.1" placeholder="Es. 70.5" value="<?php echo $peso; ?>" required>
+                        <input type="number" id="peso" name="peso" step="0.1" placeholder="Es. 70.5" required>
+                        <span class="error-message" id="error-peso"></span>
                     </div>
 
                     <div class="form-group">
                         <label for="altezza">Altezza (cm)</label>
-                        <input type="number" id="altezza" name="altezza" step="0.1" placeholder="Es. 175" value="<?php echo $altezza_cm; ?>" required>
+                        <input type="number" id="altezza" name="altezza" step="0.1" placeholder="Es. 175" required>
+                        <span class="error-message" id="error-altezza"></span>
                     </div>
 
                     <button type="submit" class="btn-submit">Calcola</button>
                 </form>
             </div>
+
         <?php endif; ?>
 
     </main>

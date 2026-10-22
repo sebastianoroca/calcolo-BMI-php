@@ -1,0 +1,92 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: #1F2328;
+}
+
+body {
+    background-color: #F1F3F5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-width: 250px;
+    max-width: 400px;
+}
+
+h1 {
+    margin-bottom: 24px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    width: 100%;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #D0D7DE;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #1F2328;
+}
+
+.error-message {
+    color: #D92D20;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* Distanza specifica di 24px tra l'ultimo campo (altezza) e il pulsante */
+.form-group:last-of-type {
+    margin-bottom: 24px;
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: #1F2328;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #32383E;
+}

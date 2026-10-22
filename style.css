@@ -1,0 +1,82 @@
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: sans-serif; 
+    color: #1F2328; 
+}
+
+body { 
+    background: #F1F3F5; 
+    min-height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 16px; 
+}
+
+.main-container { 
+    width: 100%; 
+    max-width: 400px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+h1 { 
+    margin-bottom: 24px; 
+    font-size: 1.8rem; 
+    text-align: center; 
+}
+
+.card { 
+    background: #FFFFFF; 
+    border-radius: 12px; 
+    padding: 24px; 
+    width: 100%; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    transition: background-color 0.3s ease;
+}
+
+.form-group { 
+    display: flex; 
+    flex-direction: column; 
+    margin-bottom: 16px; 
+}
+
+.form-group:last-of-type { 
+    margin-bottom: 24px; 
+}
+
+.form-group label { 
+    margin-bottom: 6px; 
+    font-weight: 600; 
+}
+
+.form-group input { 
+    padding: 10px 12px; 
+    border: 1px solid #D0D7DE; 
+    border-radius: 6px; 
+    font-size: 1rem; 
+}
+
+.btn-submit { 
+    width: 100%; 
+    background: #1F2328; 
+    color: #FFFFFF; 
+    border: none; 
+    border-radius: 8px; 
+    padding: 12px; 
+    font-weight: bold; 
+    cursor: pointer; 
+}
+
+.btn-submit:hover { 
+    background: #32383E; 
+}
+
+/* Colori dello sfondo della card in base alla categoria */
+.card.Sottopeso  { background-color: #D0E8FF; } /* Blu */
+.card.Normopeso  { background-color: #D1E7DD; } /* Verde */
+.card.Sovrappeso { background-color: #FFE5B4; } /* Arancione */
+.card.Obesità   { background-color: #F8D7DA; } /* Rosso */
